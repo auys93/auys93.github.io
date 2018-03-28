@@ -1,0 +1,153 @@
+.leftFormat {
+  margin-left: 80px;
+  font-weight: bold;
+}
+.centralize {
+  text-align: center;
+  margin-right: 150px;
+  margin-left: 150px;
+}
+
+.imageFormat {
+  width:900px;
+  height:500px;
+  margin-left:-80px;
+}
+
+.aimageFormat {
+  width:900px;
+  height:500px;
+  margin-left:-50px;
+}
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    background-color: rgba(100,100,100,0.5);
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 20px;
+    color: black;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+#main {
+    transition: margin-right .5s;
+    padding: 16px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+#mynewSidenav a {
+    position: fixed;
+    right: -15px;
+    transition: 0.3s;
+    padding: 15px;
+    width: 50px;
+    text-decoration: none;
+    text-align: left;
+    font-size: 15px;
+    color: black;
+    border-radius: 0 5px 5px 0;
+}
+
+#mynewSidenav a:hover {
+    right: 0;
+}
+
+#aOpen {
+    top: 60px;
+    background-color: rgba(200,200,200,0.5);
+}
+
+.button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+}
+
+.button5 {border-radius: 50%;}
+
+textarea {
+  margin-top: 10px;
+  margin-left: 50px;
+  width: 500px;
+  height: 100px;
+  -moz-border-bottom-colors: none;
+  -moz-border-left-colors: none;
+  -moz-border-right-colors: none;
+  -moz-border-top-colors: none;
+  background: none repeat scroll 0 0 rgba(0, 0, 0, 0.07);
+  border-color: -moz-use-text-color #FFFFFF #FFFFFF -moz-use-text-color;
+  border-image: none;
+  border-radius: 6px 6px 6px 6px;
+  border-style: none solid solid none;
+  border-width: medium 1px 1px medium;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12) inset;
+  color: #555555;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 1em;
+  line-height: 1.4em;
+  padding: 5px 8px;
+  transition: background-color 0.2s ease 0s;
+}
+
+
+textarea:focus {
+    background: none repeat scroll 0 0 #FFFFFF;
+    outline-width: 0;
+}
+
+ul.image-gallery {
+  list-style: none;
+  display: block;
+  margin: 0;
+  padding: 0;
+  /* background-color: #cccccc; */
+}
+
+ul.image-gallery:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+ul.image-gallery li {
+  list-style: none;
+  display: block;
+  float: left;
+}
+
+ul.image-gallery li img {
+  display: block;
+}

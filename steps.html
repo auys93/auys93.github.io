@@ -1,0 +1,251 @@
+<html>
+
+<head>
+  <title>SHA-3 Demo</title>
+
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="assets/CSS/myCSS.css" />
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script>
+    function openNav() {
+      document.getElementById("mySidenav").style.width = "250px";
+      document.getElementById("main").style.marginRight = "250px";
+      document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+
+      var x = document.getElementById("mynewSideNav");
+      if (x.style.display === "none") {
+          x.style.display = "block";
+      } else {
+          x.style.display = "none";
+      }
+    }
+
+    function closeNav() {
+      document.getElementById("mySidenav").style.width = "0";
+      document.getElementById("main").style.marginRight = "0";
+       document.body.style.backgroundColor = "white";
+    }
+
+  </script>
+
+</head>
+
+<body>
+  <nav class="navbar navbar-default">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="">Secured Hash Algorithm 3</a>
+      </div>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="index.html"><i class="fa fa-key"></i> SHA3-224</a></li>
+        <li class="active"><a href="#"><i class="fa fa-key"></i> Steps</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="#" id="aStyle">Overview</a>
+    <a href="#init" id="aStyle">Initial: Array Style</a>
+    <a href="#phase1" id="aPhase">Phase: Absorbing</a>
+    <a href="#stepmap" id="keccak">Step Mapping</a>
+    <a href="#step1" id="theta">Step 1:Theta</a>
+    <a href="#step2" id="rho">Step 2: Rho</a>
+    <a href="#step3" id="pi">Step 3: Pi</a>
+    <a href="#step4" id="chi">Step 4: Chi</a>
+    <a href="#step5" id="iota">Step 5: IOTA</a>
+    <a href="#squeeze" id="sPhase">Phase: Squeezing</a>
+  </div>
+   <div id="mynewSidenav" class="sidenav">
+     <span onclick ="openNav()"><a href="#" id="aOpen"><i class="fa fa-bars"></i></a></span>
+  </div>
+
+
+  <div class="container">
+    <div class="jumbotron text-center" class="col-sm-4">
+      <h2><b>Secure Hash Algorithm 3</b></h2>
+
+      <div class="centralize">
+        <h4>The SHA-3 consists of a scheme known as Sponge Construction. <br />The Sponge Construction consists of 2 phases, absorbing and squeezing.
+          <br />After the absorbing phase, our input will be ready for our function, consisting of 5 steps of permutation or substitution operations,
+          that will be repeated for 24 rounds. <br />Finally, after the final round, we will reach the squeezing phase where our hash value is dependent
+          on our pre-determined digest(output) length
+        </h4>
+        <br />
+        <img src="assets/img/howitworks.png" class="img-responsive" style="margin-left:30px" />
+      </div>
+    </div>
+
+    <div class='well well-lg' id="init">
+      <div class="centralize">
+
+        <h3><b>Array Style</b></h3>
+        <p>We will require these diagrams for a better visual impact as to how data is stored and moved.<br /> The SHA-3 data can by visualised as a 5*5*w 3D array, where w is lane size. We will use the maximum lane size of 64 bits. <br /> Each block can
+          be considered as 1 bit.
+        </p>
+        <br />
+        <br />
+        <img src="assets/img/format.png" class="img-responsive" style="margin-left: -50px;" />
+      </div>
+    </div>
+    <div class='well well-lg' id="phase1">
+      <div class="centralize">
+
+        <h3><b>Absorbing Phase</b></h3>
+        <p>
+          Initially, we will have an empty state where the array is intialized to 0. <br /> An input of "abc" is then padded with zeroes to extend its bit length to 1600 bits. <br /> A bitwise XOR will be done between the empty state and padded input
+          block to achieved the absorbed state. <br /> The examples below are shown in <a href="#nistModal" data-toggle="modal" data-target="#nistModal">NIST format</a>.
+        </p>
+
+        <div class="modal fade" id="nistModal" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">NIST Format</h4>
+              </div>
+              <div class="modal-body">
+                <br />
+                <img src="assets/img/nistFormat.png" class="img-responsive" />
+                <br />
+                <p><b>In the NIST format on the left, each block is 1 byte, and 8 of these block is a Lane. <br />
+                      Therefore, we can see how the <font color="red">NIST format corresponds to each lane of the state</font>.
+                </b></p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br />
+        <img src="assets/img/array_absorb.png" class="aimageFormat" />
+        <br />
+      </div>
+    </div>
+    <div class='well well-lg' id="stepmap">
+      <div class="centralize">
+
+        <h3><b>Keccak Permutation Step Mappings</b></h3>
+        <p>
+          One round of hashing consists of passing our input through each steps below in sequence, <br />
+          <b><i>θ(a) Theta</i>, <i>ρ(A) Rho</i>, <i>π(A) Pi</i>, <i>χ(A) Chi</i></b> and <b><i>ι(t) IOTA</i></b>. <br /> Doing these steps in sequence is known as a
+          <font color="red"><b>round function</b></font>. <br /> This will be repeated 24 times before we move on to our Squeezing Phase.
+        </p>
+        <br />
+
+      </div>
+
+      <div class='well well-lg' id="step1">
+        <div class="centralize">
+          <h4><b>Step 1: θ(A) Theta</b></h4>
+          <br />
+        </div>
+        <p class="leftFormat">
+          Theta consists of the 3 steps as stated below. <br /> Initially, a bitwise XOR operation will be performed on the lanes in each column. <br /> Next, a bitwise XOR will be done between columns C[(x-1) mod 5, z] and C[(x+1) mod 5, (z-1) mod w].
+          <br /> This is done to update the value of the bit at L[3, 2] as shown on the left diagram. <br /> The right image shows the full sequence of hexadecimal characters for the first round of theta, displayed in NIST format.
+        </p>
+        <br />
+        <div class="centralize">
+          <!-- style="width:1000px; height:550px; margin-left:-130px;" -->
+          <img src="assets/img/theta_step_0.png" class="imageFormat" />
+        </div>
+        <font size="1" class="leftFormat"><i><b>*Note: L[x,y] denotes Lane at coordinates of x and y.</b></i></font>
+        <br />
+
+      </div>
+
+      <div class='well well-lg' id="step2">
+        <div class="centralize">
+          <h4><b>Step 2: ρ(A) Rho</b></h4>
+          <br />
+        </div>
+        <p class="leftFormat">
+          The effect of ρ is to do a
+          <font color="red">circular shift</font> of bits on each lane by a length, called the
+          <font color="red">offset</font>, depending on the x and y coordinates. <br /> Only the lane in position (x, y) = (0, 0) is unaffected, hence the reason why the we set (x, y) to (1, 0). <br /> On the left, we can see an example applied to a single sheet, how bits
+          does a circular shift within the lane. <br /> On the right, it shows a table of offsets for each lane, derived from the 3rd Step.
+        </p>
+        <br />
+        <div class="centralize">
+          <img src="assets/img/rho_step.png" class="imageFormat" />
+          <br />
+        </div>
+      </div>
+
+      <div class='well well-lg' id="step3">
+        <div class="centralize">
+          <h4><b>Step 3: π(A) Pi</b></h4>
+        </div>
+        <br />
+        <p class="leftFormat">
+          The effect of π is to
+          <font color="red">arrange the positions of the lanes on each slice</font> as shown below. <br /> From the equation, the new x value is determined by (x + 3y) mod 5 and the new y value equals to the old x value. <br /> Pi is commonly done together with Rho, therefore
+          the combined algorithm in hexadecimal is shown in NIST format below.<br />
+          <font color="red">Note that lane in position (x, y) = (0, 0) is still unaffected.</font>
+        </p>
+        <br />
+        <div class="centralize">
+          <img src="assets/img/pi_step.png" style="width:900px; margin-left:-80px" />
+        </div>
+      </div>
+
+      <div class='well well-lg' id="step4">
+        <div class="centralize">
+          <h4><b>Step 4: χ(A) Chi</b></h4>
+        </div>
+        <br />
+        <p class="leftFormat">
+          The effect of χ is to XOR each bit with an inverse of the next bit and a subsequent normal bit in its row. <br /> This step is the only step which is
+          <font color="red">non-linear</font>, if not, SHA-3's round function will be linear.<br /> An example of Chi on just one bit can be seen on the left, and on the right will be the values in hexadecimal, shown in NIST format.
+        </p>
+        <br />
+        <div class="centralize">
+          <img src="assets/img/chi_step.png" class="imageFormat" />
+          <br />
+        </div>
+      </div>
+
+      <div class='well well-lg' id="step5">
+        <div class="centralize">
+          <h4><b>Step 5: ι(t) IOTA</b></h4>
+        </div>
+        <br />
+        <p class="leftFormat">
+          The effect of ι is to modify some of the
+          <font color="red">bits of Lane (0, 0)</font> in a manner that depends on the
+          <font color="red">round index <i>i<sub>r</sub></i></font>.<br /> The other 24 lanes are not affected by ι. <br /> How IOTA works starts with initializing the Round Constant (RC) with the same number of zeroes as the lane size, 64 in our case. <br /> Next, each
+          round constant will be evaluated and tagged from RC[0] to RC[64]. It will then be XOR-ed with each bit in L[0, 0]. <br /> However, since a table of round constants for the maximum lane size of 64 has been evaluated on the left,<br /> we can
+          just evaluate step 4 as
+          <font color="red">A′ [0, 0, z] = A′ [0, 0, z] ⊕ RC[ <i>i<sub>r</sub></i> ]</font>. <br /> On the right is the derived values in hexdecimal, shown in NIST format .
+        </p>
+        <br />
+        <div class="centralize">
+          <img src="assets/img/iota_step.png" class="imageFormat" />
+          <br />
+        </div>
+      </div>
+
+    </div>
+    <div class='well well-lg' id="squeeze">
+      <div class="centralize">
+
+        <h3><b>Squeezing Phase</b></h3>
+        <br />
+        <p>
+          The final part of the SHA3 algorithm is the squeezing phase. <br /> After, the final round of the step functions, we have the complete hashed value of our input. <br /> Squeezing is essentially "squeezing" the amount of bits that was defined
+          from the start. <br /> In this demo, we are demonstrating SHA3-224, meaning a digest (output) length of 224 bits. <br /> Since each hexdecimal value in the NIST format is a byte, and 224 bits is 28 bytes, <br /> therefore, we will truncate and
+          take the first 28 bytes in the array as our hash output.
+        </p>
+        <br />
+        <img src="assets/img/array_squeeze.png" class="img-responsive" />
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>

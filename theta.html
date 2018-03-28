@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <title>SHA-3 Demo</title>
+
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" />
+  <link rel="stylesheet" href="assets/CSS/myCSS.css" />
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
+  <script src="assets/js/sha3.js"></script>
+  <script src="assets/js/sha3long.js"></script>
+  <script src="assets/js/sha3func.js"></script>
+  <script src="assets/js/test.js"></script>
+
+
+  <!-- These denotes the step mapping algorithms -->
+  <script src="assets/js/absorbing.js"></script>
+  <script src="assets/js/theta.js"></script>
+  <script src="assets/js/rhopi.js"></script>
+  <script src="assets/js/chi.js"></script>
+  <script src="assets/js/iota.js"></script>
+  <script src="assets/js/squeezing.js"></script>
+
+  <script>
+    function SHA3hash() {
+
+      var input = document.getElementById("tb1");
+      var output = document.getElementById("tb2");
+
+      if (input.value == null) {
+        console.log("hello");
+      }
+      tablePopulate(input.value);
+      var hash = Sha3.hash224(input.value);
+      output.value = hash;
+    }
+  </script>
+
+</head>
+
+<body>
+  <nav class="navbar navbar-default">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="">Secured Hash Algorithm 3</a>
+      </div>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="current"><a href="#"><i class="fa fa-key"></i> SHA3-224</a></li>
+        <li><a href="steps.html"><i class="fa fa-key"></i> Steps</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="jumbotron text-center">
+      <p>
+        Plain Text:
+      </p>
+      <textarea placeholder="Please Key in plain text" id="tb1" rows="20" name="tb1" cols="40" class="ui-autocomplete-input"
+      autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true" oninput="SHA3hash()"></textarea>
+    </div>
+    <div class="jumbotron text-center">
+      <p>
+        Hash Value:
+      </p>
+      <textarea rows="20" name="tb2" cols="40" id="tb2" class="ui-autocomplete-input" autocomplete="off" role="textbox"
+      aria-autocomplete="list" aria-haspopup="true" readonly="readonly"></textarea>
+    </div>
+    <!-- <button onclick="SHA3hash();">convert</button> -->
+  </div>
+</body>
+
+</html>
