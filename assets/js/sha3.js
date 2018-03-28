@@ -40,10 +40,6 @@ class Sha3 {
     // nRounds = 12 +2L, where 2^L = laneSize, and laneSize = 64
     var nRounds = 24;
 
-    var toStr = function(c) {
-      return jsLong.fromString(c);
-    }
-
     // for each part of the step mapping, the upper and lower bounds will be splitting
     //  and perumted at each part seperately
     for (var rnds = 0; rnds < nRounds; rnds++) {
