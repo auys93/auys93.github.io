@@ -10,6 +10,7 @@ function iota(a, rnds) {
     return jsLong.fromString(c);
   }
 
+ 
   // taken from: https://keccak.team/keccak_specs_summary.html
   var rndConst = [
     '0000000000000001', '0000000000008082', '800000000000808a', '8000000080008000',
