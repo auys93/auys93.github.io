@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Agent Weekend Plan</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 24px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #f5f5f2;
+    color: #1a1a18;
+  }
+  h1 { font-size: 20px; font-weight: 500; margin: 0 0 1.5rem; color: #1a1a18; }
+  .day-tabs { display: flex; gap: 8px; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .day-tab {
+    padding: 8px 20px; border-radius: 8px;
+    border: 0.5px solid #b4b2a9; background: transparent;
+    font-size: 14px; cursor: pointer; color: #5f5e5a;
+    transition: all .15s; font-family: inherit;
+  }
+  .day-tab.active {
+    background: #e8e7e2; color: #1a1a18;
+    border-color: #888780; font-weight: 500;
+  }
+  .section { margin-bottom: 1.5rem; }
+  .section-title {
+    font-size: 11px; font-weight: 500; text-transform: uppercase;
+    letter-spacing: .08em; color: #888780; margin: 0 0 10px;
+  }
+  .phase {
+    background: #fff; border: 0.5px solid #d3d1c7;
+    border-radius: 12px; padding: 1rem 1.25rem;
+    margin-bottom: 10px; cursor: pointer; transition: border-color .15s;
+  }
+  .phase:hover { border-color: #b4b2a9; }
+  .phase-header { display: flex; align-items: center; gap: 10px; }
+  .phase-badge {
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 500; flex-shrink: 0;
+  }
+  .badge-learn { background: #E6F1FB; color: #185FA5; }
+  .badge-build { background: #EAF3DE; color: #3B6D11; }
+  .badge-test  { background: #FAEEDA; color: #854F0B; }
+  .badge-ship  { background: #EEEDFE; color: #534AB7; }
+  .phase-title { font-size: 14px; font-weight: 500; color: #1a1a18; flex: 1; }
+  .phase-time { font-size: 12px; color: #888780; }
+  .phase-body {
+    margin-top: 12px; border-top: 0.5px solid #d3d1c7;
+    padding-top: 12px; display: none;
+  }
+  .phase-body.open { display: block; }
+  .task-list { list-style: none; margin: 0; padding: 0; }
+  .task-list li {
+    font-size: 13px; color: #5f5e5a; padding: 4px 0;
+    display: flex; gap: 8px; line-height: 1.5;
+  }
+  .task-list li::before { content: '—'; color: #888780; flex-shrink: 0; }
+  .code-pill {
+    font-family: 'SF Mono', 'Fira Code', monospace; font-size: 11px;
+    background: #f1efe8; border: 0.5px solid #d3d1c7;
+    border-radius: 4px; padding: 1px 5px; color: #5f5e5a; display: inline;
+  }
+  .resource {
+    display: flex; gap: 8px; align-items: flex-start;
+    padding: 6px 0; border-bottom: 0.5px solid #d3d1c7;
+  }
+  .resource:last-child { border-bottom: none; }
+  .resource-tag {
+    font-size: 11px; padding: 2px 7px; border-radius: 4px;
+    white-space: nowrap; font-weight: 500; flex-shrink: 0; margin-top: 1px;
+  }
+  .tag-read  { background: #E6F1FB; color: #185FA5; }
+  .tag-video { background: #FAECE7; color: #993C1D; }
+  .tag-code  { background: #EAF3DE; color: #3B6D11; }
+  .resource-text { font-size: 13px; color: #5f5e5a; line-height: 1.4; }
+  .arch-box {
+    background: #f1efe8; border-radius: 8px; padding: 1rem;
+    font-size: 13px; color: #5f5e5a; line-height: 1.9;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+  }
+  .milestone {
+    display: flex; gap: 10px; align-items: center;
+    padding: 8px 0; border-bottom: 0.5px solid #d3d1c7;
+  }
+  .milestone:last-child { border-bottom: none; }
+  .milestone-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 2px; }
+  .dot-sat { background: #378ADD; }
+  .dot-sun { background: #639922; }
+  .milestone-text { font-size: 13px; color: #5f5e5a; line-height: 1.4; flex: 1; }
+  .milestone-label { font-size: 11px; color: #888780; flex-shrink: 0; }
+  .note-box {
+    font-size: 13px; color: #5f5e5a; line-height: 1.7;
+    background: #f1efe8; border-radius: 8px; padding: 1rem;
+  }
+</style>
+</head>
+<body>
+<h1>AI Agent — Weekend Build Plan</h1>
+
+<div class="day-tabs">
+  <button class="day-tab active" onclick="showDay('sat')">Saturday — Learn + Scaffold</button>
+  <button class="day-tab" onclick="showDay('sun')">Sunday — Build + Ship</button>
+  <button class="day-tab" onclick="showDay('arch')">Architecture</button>
+  <button class="day-tab" onclick="showDay('milestones')">Milestones</button>
+</div>
+
+<!-- SATURDAY -->
+<div id="day-sat">
+  <div class="section">
+    <p class="section-title">Morning · 9 am – 1 pm</p>
+    <div class="phase" onclick="toggle(this)">
+      <div class="phase-header">
+        <div class="phase-badge badge-learn">01</div>
+        <span class="phase-title">Understand how agents actually work</span>
+        <span class="phase-time">2 hrs</span>
+      </div>
+      <div class="phase-body">
+        <ul class="task-list">
+          <li>Read the ReAct paper (Reason + Act loop) — this is the mental model you'll implement</li>
+          <li>Study the agent loop: observe → think → act → observe (repeat until done)</li>
+          <li>Learn what a "tool" is in agent terms — a function the model can call with structured args</li>
+          <li>Understand context window management: why agents forget and how to work around it</li>
+        </ul>
+        <div style="margin-top:10px">
+          <div class="resource"><span class="resource-tag tag-read">Read</span><span class="resource-text">ReAct: Synergizing Reasoning and Acting in Language Models (arxiv.org/abs/2210.03629)</span></div>
+          <div class="resource"><span class="resource-tag tag-read">Read</span><span class="resource-text">Anthropic's "Building effective agents" guide (docs.anthropic.com)</span></div>
+          <div class="resource"><span class="resource-tag tag-video">Watch</span><span class="resource-text">Andrej Karpathy — "Intro to LLMs" (covers tool calling and agentic loops at ~1hr mark)</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="phase" onclick="toggle(this)">
+      <div class="phase-header">
+        <div class="phase-badge badge-learn">02</div>
+        <span class="phase-title">Design the model-agnostic interface</span>
+        <span class="phase-time">2 hrs</span>
+      </div>
+      <div class="phase-body">
+        <ul class="task-list">
+          <li>Study how OpenAI, Anthropic, and Gemini APIs differ — message formats, tool calling schemas, streaming</li>
+          <li>Define a <span class="code-pill">ModelProvider</span> abstract class with a single <span class="code-pill">complete(messages, tools)</span> method</li>
+          <li>Map each provider's quirks into adapter classes that conform to your interface</li>
+          <li>Decide your tool schema format — OpenAI's JSON Schema convention is the de facto standard</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <p class="section-title">Afternoon · 2 pm – 7 pm</p>
+    <div class="phase" onclick="toggle(this)">
+      <div class="phase-header">
+        <div class="phase-badge badge-build">03</div>
+        <span class="phase-title">Build the provider adapters</span>
+        <span class="phase-time">2.5 hrs</span>
+      </div>
+      <div class="phase-body">
+        <ul class="task-list">
+          <li>Implement <span class="code-pill">OpenAIProvider</span> — wraps <span class="code-pill">gpt-4o</span>, handles tool_calls in response</li>
+          <li>Implement <span class="code-pill">AnthropicProvider</span> — wraps Claude, maps <span class="code-pill">tool_use</span> blocks</li>
+          <li>Implement <span class="code-pill">OllamaProvider</span> — local models, no API key needed (great for testing)</li>
+          <li>Write a unified <span class="code-pill">Message</span> dataclass that every adapter outputs</li>
+          <li>Add streaming support behind a flag — you'll need it for UX later</li>
+        </ul>
+      </div>
+    </div>
+    <div class="phase" onclick="toggle(this)">
+      <div class="phase-header">
+        <div class="phase-badge badge-build">04</div>
+        <span class="phase-title">Build the core agent loop</span>
+        <span class="phase-time">2.5 hrs</span>
+      </div>
+      <div class="phase-body">
+        <ul class="task-list">
+          <li>Create an <span class="code-pill">Agent</span> class that takes a provider, a list of tools, and a system prompt</li>
+          <li>Implement the <span class="code-pill">run(user_input)</span> loop: call model → parse tool calls → execute → feed result back</li>
+          <li>Add a max_iterations guard — prevents infinite loops</li>
+          <li>Implement memory: simple list-based conversation history passed with every call</li>
+          <li>Handle parallel tool calls if the model requests them</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SUNDAY -->
+<div id="day-sun" style="display:none">
+  <div class="section">
+    <p class="section-title">Morning · 9 am – 1 pm</p>
+    <div class="phase" onclick="toggle(this)">
+      <div class="phase-header">
+        <div class="phase-badge badge-build">05</div>
+        <span class="phase-title">Build a useful tool suite</span>
+        <span class="phase-time">2 hrs</span>
+      </div>
+      <div class="phase-body">
+        <ul class="task-list">
+          <li><span class="code-pill">web_search(query)</span> — scrape DuckDuckGo or use SerpAPI free tier</li>
+          <li><span class="code-pill">read_file(path)</span> and <span class="code-pill">write_file(path, content)</span> — file I/O</li>
+          <li><span class="code-pill">run_python(code)</span> — execute code in a subprocess sandbox</li>
+          <li><span class="code-pill">http_get(url)</span> — fetch and return page content</li>
+          <li>Use a <span class="code-pill">@tool</span> decorator that auto-generates the JSON schema from type hints and docstrings</li>
+        </ul>
+      </div>
+    </div>
+    <div class="phase" onclick="toggle(this)">
+      <div class="phase-header">
+        <div class="phase-badge badge-build">06</div>
+        <span class="phase-title">Add memory and planning</span>
+        <span class="phase-time">2 hrs</span>
+      </div>
+      <div class="phase-body">
+        <ul class="task-list">
+          <li>Short-term memory: conversation history (already done) + a scratchpad the agent can write to</li>
+          <li>Long-term memory: embed past interactions into a vector store (ChromaDB is zero-config)</li>
+          <li>Add a <span class="code-pill">remember(fact)</span> and <span class="code-pill">recall(query)</span> tool the agent can call explicitly</li>
+          <li>Plan-then-execute mode: first call produces a step-by-step plan, subsequent calls execute each step</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <p class="section-title">Afternoon · 2 pm – 7 pm</p>
+    <div class="phase" onclick="toggle(this)">
+      <div class="phase-header">
+        <div class="phase-badge badge-test">07</div>
+        <span class="phase-title">Test across models and harden</span>
+        <span class="phase-time">2 hrs</span>
+      </div>
+      <div class="phase-body">
+        <ul class="task-list">
+          <li>Run the same benchmark task on GPT-4o, Claude, and a local Ollama model — compare outputs</li>
+          <li>Test edge cases: model refuses a tool call, tool throws an exception, model loops forever</li>
+          <li>Add retry logic with exponential backoff for API failures</li>
+          <li>Add token counting before each call — truncate history if approaching the limit</li>
+          <li>Log every step to a structured JSON file for debugging</li>
+        </ul>
+      </div>
+    </div>
+    <div class="phase" onclick="toggle(this)">
+      <div class="phase-header">
+        <div class="phase-badge badge-ship">08</div>
+        <span class="phase-title">Ship a working demo</span>
+        <span class="phase-time">3 hrs</span>
+      </div>
+      <div class="phase-body">
+        <ul class="task-list">
+          <li>Pick a compelling demo task: "research a topic and write a report", "fix bugs in a codebase", or "plan a trip"</li>
+          <li>Wire up a simple CLI with <span class="code-pill">--model</span> flag so anyone can swap providers</li>
+          <li>Optionally: add a Gradio or Streamlit front end — about 20 lines of code</li>
+          <li>Write a one-page README with architecture diagram and quickstart</li>
+          <li>Push to GitHub with a demo GIF in the README</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ARCHITECTURE -->
+<div id="day-arch" style="display:none">
+  <div class="section">
+    <p class="section-title">Final architecture</p>
+    <div class="arch-box">
+<span style="color:#888780">┌─────────────────────────────────────┐</span><br>
+<span style="color:#888780">│</span>         <span style="color:#185FA5">Agent</span>(provider, tools, memory)        <span style="color:#888780">│</span><br>
+<span style="color:#888780">│</span>  run(input) → think → act → observe  <span style="color:#888780">│</span><br>
+<span style="color:#888780">└──────────┬────────────────┬──────────┘</span><br>
+           <span style="color:#888780">│</span>                <span style="color:#888780">│</span><br>
+<span style="color:#888780">┌──────────▼──────────┐  ┌──▼───────────────────┐</span><br>
+<span style="color:#888780">│</span>  <span style="color:#3B6D11">ModelProvider</span> (ABC)  <span style="color:#888780">│  │</span>  <span style="color:#854F0B">ToolRegistry</span>           <span style="color:#888780">│</span><br>
+<span style="color:#888780">│</span>  complete(msgs,tools)<span style="color:#888780">│  │</span>  @tool decorator      <span style="color:#888780">│</span><br>
+<span style="color:#888780">└──┬──────┬──────┬────┘  │</span>  auto JSON schema      <span style="color:#888780">│</span><br>
+   <span style="color:#888780">│</span>      <span style="color:#888780">│</span>      <span style="color:#888780">│</span>        <span style="color:#888780">└───────────────────────┘</span><br>
+<span style="color:#185FA5">OpenAI</span>  <span style="color:#534AB7">Claude</span>  <span style="color:#3B6D11">Ollama</span>
+    </div>
+  </div>
+  <div class="section">
+    <p class="section-title">Key design decisions</p>
+    <div class="phase" onclick="toggle(this)">
+      <div class="phase-header">
+        <div class="phase-badge badge-learn">?</div>
+        <span class="phase-title">Python vs TypeScript</span>
+      </div>
+      <div class="phase-body">
+        <ul class="task-list">
+          <li>Python: better ecosystem (LangChain, ChromaDB, numpy), easier scripting, more agent examples online</li>
+          <li>TypeScript: better for web integration, stronger types catch bugs early, Vercel AI SDK is excellent</li>
+          <li>Recommendation: Python for the weekend build — you'll move faster. TypeScript if the agent runs in a web app</li>
+        </ul>
+      </div>
+    </div>
+    <div class="phase" onclick="toggle(this)">
+      <div class="phase-header">
+        <div class="phase-badge badge-learn">?</div>
+        <span class="phase-title">Build from scratch vs use a framework</span>
+      </div>
+      <div class="phase-body">
+        <ul class="task-list">
+          <li>Build from scratch (this plan): you learn how every part works, easier to debug and extend</li>
+          <li>LangChain/LangGraph: powerful but heavy — you'll fight abstractions until you understand the fundamentals</li>
+          <li>Recommendation: build scratch first. After the weekend, look at LangGraph for production orchestration</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MILESTONES -->
+<div id="day-milestones" style="display:none">
+  <div class="section">
+    <p class="section-title">Checkpoints to aim for</p>
+    <div class="milestone"><div class="milestone-dot dot-sat"></div><div class="milestone-text">Provider adapter returns a unified response from at least 2 different APIs</div><span class="milestone-label">Sat noon</span></div>
+    <div class="milestone"><div class="milestone-dot dot-sat"></div><div class="milestone-text">Agent loop runs a 3-step task end to end without crashing</div><span class="milestone-label">Sat 5 pm</span></div>
+    <div class="milestone"><div class="milestone-dot dot-sat"></div><div class="milestone-text">Same task gives similar results on OpenAI and Claude</div><span class="milestone-label">Sat 7 pm</span></div>
+    <div class="milestone"><div class="milestone-dot dot-sun"></div><div class="milestone-text">Agent can search the web, read a file, and write a summary</div><span class="milestone-label">Sun noon</span></div>
+    <div class="milestone"><div class="milestone-dot dot-sun"></div><div class="milestone-text">Agent survives a tool failure and retries gracefully</div><span class="milestone-label">Sun 4 pm</span></div>
+    <div class="milestone"><div class="milestone-dot dot-sun"></div><div class="milestone-text">CLI demo works with <span class="code-pill">--model gpt-4o</span> and <span class="code-pill">--model claude</span></div><span class="milestone-label">Sun 6 pm</span></div>
+    <div class="milestone"><div class="milestone-dot dot-sun"></div><div class="milestone-text">README pushed to GitHub with architecture diagram</div><span class="milestone-label">Sun 7 pm</span></div>
+  </div>
+  <div class="section">
+    <p class="section-title">What to do on Monday</p>
+    <div class="note-box">
+      Add evaluation: build a tiny benchmark of 5–10 tasks with expected outputs. Run it nightly. Study LangGraph for multi-agent orchestration. Replace the in-memory vector store with a persistent one. Consider adding a human-in-the-loop approval step before the agent executes destructive actions.
+    </div>
+  </div>
+</div>
+
+<script>
+function showDay(d) {
+  ['sat','sun','arch','milestones'].forEach(id => {
+    document.getElementById('day-'+id).style.display = id===d ? 'block' : 'none';
+  });
+  document.querySelectorAll('.day-tab').forEach((btn, i) => {
+    btn.classList.toggle('active', ['sat','sun','arch','milestones'][i] === d);
+  });
+}
+function toggle(el) {
+  el.querySelector('.phase-body').classList.toggle('open');
+}
+</script>
+</body>
+</html>
